@@ -2,10 +2,25 @@ import { Link } from "react-router-dom"
 import Button from "../components/Button"
 import Input from "../components/Input"
 import { useState } from "react"
-
+import { api } from "../api/api"
 const Login = () => {
     const [error, setError] = useState("")
-    const handleSubmit = () => {}
+    
+        const handleSubmit = async (e) => {
+            e.preventDefault()
+            setError("")
+            const user = {
+                username: e.target.username.value,
+                password: e.target.password.value,
+            }
+            try {
+                const data = await api.loginUser(user)
+            } catch (error) {
+            setError(error.response.data.error)
+            console.error(error)
+    
+            }
+        }
 
     return (
         <div className="container">
@@ -57,7 +72,7 @@ const Login = () => {
 
                 <div class="auth-link">
                     Нет аккаунта?
-                    <Link to={"/register"}>Зарегистрироваться</Link>
+                    <Link to={"/signup"}>Зарегистрироваться</Link>
                 </div>
             </div>
         </div>

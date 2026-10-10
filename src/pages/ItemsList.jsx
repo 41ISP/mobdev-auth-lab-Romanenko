@@ -1,31 +1,21 @@
+import { useEffect, useState } from 'react'
 import ItemCard from '../components/ItemCard'
-import { api } from '../api/api'
-import { useEffect } from 'react'
+import { api } from "../api/api"
 
 const ItemsList = () => {
-const [items, setItems] = setItems([])
-const [error, setError] = useState([])
-useEffect(() => {
-const fetchItems = async () =>{
+    const [items, setItems] = useState([])
 
-try {
-setLoading(true)
-setError(null)
-const responce = await api.getItems()
-setItems(responce.data)
-
-} catch (err) {
-setError(err.message || 'Не удалось загрузить товары')
-} finally {
-setLoading(false)
-}
-
-
-
-}
-fetchItems()
-
-}, [])
+    useEffect (() => {
+        async function loadItems() {
+        try {
+            const data = await api.getItems()
+            setItems(data.data) 
+        } catch (error) {
+            console.error(error)
+        }
+        }
+        loadItems()
+    }, [])
 
     return (
         <div className="container">

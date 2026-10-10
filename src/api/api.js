@@ -15,13 +15,13 @@ const loginUser = async (user) => {
     const res = await apiInstance.post("/auth/login", user)
     return res
 }
-const getitems = async (user) => {
-    const res = await apiInstance.get("/auth/login", user)
+const getItems = async (user) => {
+    const res = await apiInstance.get("/items", user)
     return res
 }
 
 export const api = {
     registerUser,
     loginUser,
-    getitems
+    getItems
 }

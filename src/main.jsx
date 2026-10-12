@@ -20,6 +20,7 @@ createRoot(document.getElementById("root")).render(
                     <Route path="login" element={<Login />} />
                     <Route path="bids" element={<MyBids />} />
                     <Route path="item/:id" element={<ItemDetail />} />
+                    <Route path= ""/>
                 </Route>
                 <Route path="/logout" element={<Logout />} />
             </Routes>

@@ -48,6 +48,11 @@ const res = await apiInstance.delete(`items/${id}`)
 return res
 }
 
+const CreateBid = async (amount, id) => {
+const res = await apiInstance.post(`/items/${id}/bids`, amount)
+return res
+}
+
 export const api = {
     registerUser,
     loginUser,
@@ -56,5 +61,6 @@ export const api = {
     getItemBids,
     getMyBids,
     sendItems,
-    deleteItems
+    deleteItems,
+    CreateBid
 }

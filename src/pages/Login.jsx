@@ -4,6 +4,7 @@ import Input from "../components/Input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {useUserStore} from "../store/useUserStore"
+import { api } from "../api/api"
 
 
 const Login = () => {
@@ -11,7 +12,7 @@ const Login = () => {
      const navigate = useNavigate()
     const { setSession } = useUserStore()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
           e.preventDefault()
 
         const user = {
@@ -19,12 +20,13 @@ const Login = () => {
             password: e.target.password.value,
         }
         try {
-            const data = api.loginUser(user)
+            const data = await api.loginUser(user)
             setSession(data.data)
             navigate("/")
         } catch (error) {
-            setError(error.response.data.error)
             console.error(error)
+            setError(error.response.data.error)
+            
         }
     }
 

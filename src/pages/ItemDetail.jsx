@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom"
 import Input from "../components/Input"
 import Button from "../components/Button"
+import ItemCard from "../components/ItemCard"
 
 const ItemDetail = () => {
-    const handleBid = () => {}
     
+    const handleBid = () => {}
+//     const { id } = useParams()
+// const items = useItemStore((state) => state.item)
+// const getItems = useItemStore((state) => state.item)
+
+// useEffect(() => {
+//     ()
+// }, [id])
+
+// if (!items) return <div className="container">Загрузка...</div>
     return (
         <div className="container">
 
@@ -13,30 +23,30 @@ const ItemDetail = () => {
             <div class="item-detail">
                 <div class="item-header">
                     <div>
-                         <img src={ItemShow.imageUrl} class="item-image-large" />
+                         <img src={ItemCard.imageUrl} class="item-image-large" />
                     </div>
 
                     <div class="item-info">
-                        <span class="item-status">{ItemShow.status}</span>
+                        <span class="item-status">{ItemCard.status}</span>
                             
-                        <h1 class="item-title-large">{ItemShow.title}</h1>
+                        <h1 class="item-title-large">{ItemCard.title}</h1>
                             
                         <div class="item-seller-info">
                             <div class="seller-avatar">TS</div>
                             <div class="seller-details">
-                                <div class="seller-name">{ItemShow.username}</div>
-                                <div class="seller-date">{ItemShow.createdAt}</div>
+                                <div class="seller-name">{ItemCard.username}</div>
+                                <div class="seller-date">{ItemCard.createdAt}</div>
                             </div>
                         </div>
 
                         <div class="item-description-full">
-                            {ItemShow.description}
+                            {ItemCard.description}
                         </div>
 
                         <div class="price-section">
                             <div class="starting-price">Начальная цена:</div>
-                            <div class="current-price">{ItemShow.price}</div>
-                            <div class="highest-bid">Текущая ставка: {ItemShow.highestBid}</div>
+                            <div class="current-price">{ItemCard.price}</div>
+                            <div class="highest-bid">Текущая ставка: {ItemCard.highestBid}</div>
 
                             <form class="bid-form" onSubmit={handleBid}>
                                 <Input 
@@ -44,7 +54,7 @@ const ItemDetail = () => {
                                     name= "bidInput"
                                     class="bid-input" 
                                     placeholder="Введите вашу ставку (мин. 70 001 ₽)"
-                                    min={ItemShow.highestBid}
+                                    min={ItemCard.highestBid}
                                     step="100"
                                 />
                                 <Button type="submit" class="btn-bid">Сделать ставку</Button>

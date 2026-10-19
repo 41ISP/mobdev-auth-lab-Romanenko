@@ -8,9 +8,10 @@ import { useUserStore } from "../store/useUserStore"
 
 const ItemDetail = () => {
     const { id } = useParams()
-    const items = useItemStore((state) => state.items)
-    const item = items?.find((item) => String(item.id) === id)
-    const getItems = useItemStore((state) => state.getItems)
+    // const items = useItemStore((state) => state.items)
+    // const item = items?.find((item) => String(item.id) === id)
+    // const getItems = useItemStore((state) => state.getItems)
+    const [item, setItem] = useState(undefined)
     const [error, setError] = useState("")
     const [timerId, setTimerId] = useState(undefined)
     const [bids, setBids] = useState([])
@@ -22,6 +23,7 @@ const ItemDetail = () => {
         const load = async () => {
             setIsLoading(true)
             try {
+                
                 await getItems()
                 await loadBids()
             } catch (error) {
@@ -41,7 +43,7 @@ const ItemDetail = () => {
         return () => {
             clearInterval(timerId)
         }
-    }, [id])
+    }, [])
 
     const handleBid = async (e) => {
         e.preventDefault()

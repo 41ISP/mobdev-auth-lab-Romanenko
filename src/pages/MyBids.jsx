@@ -7,30 +7,22 @@ const MyBids = () => {
     const [timerId, setTimerId] = useState(undefined)
     const [error, setError] = useState(null)
 
-    useEffect(() => {
-        const load = async () => {
-            try {
-                const res = await api.getMyBids()
-                const data = res?.data ?? res
-                const bidsList = Array.isArray(data) ? data : data?.bids
-
-                setBids(Array.isArray(bidsList) ? bidsList : [])
-            } catch (error) {
-                console.error(error)
-                setError(error.message || "Что-то пошло не так")
-                setBids([])
-            }
+   useEffect(() => {
+    const load = async () => {
+        try {
+            const data = await api.getMyBids();
+            setBids(Array.isArray(data) ? data : []);
+            setError(null);
+        } catch (error) {
+            console.error(error);
+            setError(error.message || "Что-то пошло не так");
+            setBids([]);
         }
-        load()
-        setTimerId(setInterval(async () => {
-            try {
-                api.getMyBids()
-            } catch (error) { }
-        }, 10000))
-        return () => {
-            clearInterval(timerId)
-        }
-    }, [])
+    };
+    load();
+    const timer = setInterval(load, 10000);
+    return () => clearInterval(timer);
+}, []);
 
     const winningCount = bids.filter((bid) => bid.isWinning).length
     const totalAmount = bids.reduce((sum, bid) => sum + (bid.amount ?? 0), 0)

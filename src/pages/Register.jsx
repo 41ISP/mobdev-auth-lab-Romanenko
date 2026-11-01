@@ -9,31 +9,36 @@ const Register = () => {
     const [error, setError] = useState('')
     const navigate = useNavigate()
      const { setSession } = useUserStore()
-    const handleSubmit = async (e) => {
-              e.preventDefault()
-             setError("")
-            
-            
-             if (e.target.password.value !== e.target.password2.value) {
-            setError("Пароли не совпадают")
-            return
-    }
-         const user = {
-            username: e.target.username.value,
-            email: e.target.email.value,
-            password: e.target.password.value,
-        }
-                try {
-            const data = api.registerUser(user)
-            setSession(data.data)
-            navigate("/")
-        } catch (error) {
-            console.error(error)
-            setError(error.response.data.error)
-            
-        }
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-        }
+    if (e.target.password.value !== e.target.password2.value) {
+        setError("Пароли не совпадают");
+        return;
+    }
+
+    const user = {
+        username: e.target.username.value,
+        password: e.target.password.value,
+    };
+    
+    if (e.target.email?.value?.trim()) {
+        user.email = e.target.email.value.trim();
+    }
+
+    try {
+        const data = await api.registerUser(user); 
+        
+        // Сохраняем сессию
+        setSession(data); 
+        navigate("/");
+    } catch (error) {
+        console.error(error);
+        setError(error.response?.data?.error || "Ошибка регистрации");
+    }
+};
+
    
     
     return (

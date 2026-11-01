@@ -1,58 +1,58 @@
 import ItemCard from '../components/ItemCard'
 import { api } from '../api/api'
 import { useEffect, useState } from 'react'
+import { useItemStore } from '../store/useItemStore'
 
 const ItemsList = () => {
- const [items, setItems] = useState([])
- const [stats, setStats] = useState(null)
+    const items = useItemStore((state) => state.items)
+    const getItems = useItemStore((state) => state.getItems)
+    const [stats, setStats] = useState(null)
 
-    useEffect (() => {
-        async function loadItems() {
-        try {
-            const data = await api.getItems()
-            setItems(data.data) 
-        } catch (error) {
-            console.error(error)
-        }
-        }
-        loadItems()
+    useEffect(() => {
+        getItems()
+
         const loadStats = async () => {
             try {
                 const data = await api.getStats()
                 setStats(data)
             } catch (error) {
+                console.error("Ошибка статистики:", error)
             }
         }
         loadStats()
     }, [])
+
     return (
         <div className="container">
-            <div class="page-header">
+            <div className="page-header">
                 <h1>Все товары</h1>
             </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-value">{stats?.totalItems ?? 0}</span>
-                    <span class="stat-label">Товаров</span>
+            
+            <div className="stats">
+                <div className="stat-item">
+                    <span className="stat-value">{stats?.totalItems ?? 0}</span>
+                    <span className="stat-label">Товаров</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">{stats?.totalBids ?? 0}</span>
-                    <span class="stat-label">Ставок</span>
+                <div className="stat-item">
+                    <span className="stat-value">{stats?.totalBids ?? 0}</span>
+                    <span className="stat-label">Ставок</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">{stats?.activeItems ?? 0}</span>
-                    <span class="stat-label">Активных</span>
+                <div className="stat-item">
+                    <span className="stat-value">{stats?.activeItems ?? 0}</span>
+                    <span className="stat-label">Активных</span>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">{stats?.averageItemPrise ?? 0}p</span>
-                    <span class="stat-label">Средняя цена</span>
+                <div className="stat-item">
+                    <span className="stat-value">{Math.round(stats?.averageItemPrice ?? 0)} ₽</span>
+                    <span className="stat-label">Средняя цена</span>
                 </div>
             </div>
 
-            <div class="items-grid">
-                {items.map((item, i) => (
-                    <ItemCard key={i} {...item} />
-                ))}
+            <div className="items-grid">
+                {items && items.length > 0 && (
+                    items.map((item) => (
+                        <ItemCard key={item.id} {...item} />
+                    ))
+                )}
             </div>
         </div>
     )

@@ -5,3 +5,8 @@
 @import "./create-item.css";
 @import "./item-detail.css";
 @import "./my-bids.css";
+.item-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}

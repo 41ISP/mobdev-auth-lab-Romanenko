@@ -1,16 +1,52 @@
 import { useState } from 'react'
 import Button from '../components/Button'
 import Input from '../components/Input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { api } from '../api/api'
+import { useUserStore } from '../store/useUserStore'
 
 const Register = () => {
     const [error, setError] = useState('')
+    const navigate = useNavigate()
+     const { setSession } = useUserStore()
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-    const handleSubmit = (e) => {}
+    if (e.target.password.value !== e.target.password2.value) {
+        setError("Пароли не совпадают");
+        return;
+    }
 
+    const user = {
+        username: e.target.username.value,
+        password: e.target.password.value,
+    };
+    
+    if (e.target.email?.value?.trim()) {
+        user.email = e.target.email.value.trim();
+    }
+
+    try {
+        const data = await api.registerUser(user); 
+        
+        // Сохраняем сессию
+        setSession(data); 
+        navigate("/");
+    } catch (error) {
+        console.error(error);
+        setError(error.response?.data?.error || "Ошибка регистрации");
+    }
+};
+
+   
+    
     return (
         <div className="container">
             <div class="auth-container">
+                <h1 className="auth-title">Регистрация</h1>
+                {error.length > 0 && <div className="auth-error">{error}</div>}
+                <form onSubmit={handleSubmit}></form>
                 <div class="auth-header">
                     <div class="auth-icon">👤</div>
                     <h1 class="auth-title">Регистрация</h1>
